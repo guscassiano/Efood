@@ -14,8 +14,10 @@ type Props = {
 const OptionCard = ({ description, image, title }: Props) => (
   <OptionContainer>
     <img src={image} alt={title} />
-    <TitleOption>{title}</TitleOption>
-    <DescricaoOption>{description}</DescricaoOption>
+    <div>
+      <TitleOption>{title}</TitleOption>
+      <DescricaoOption>{description}</DescricaoOption>
+    </div>
     <AddButton>Adicionar ao carrinho</AddButton>
   </OptionContainer>
 )

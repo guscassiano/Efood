@@ -7,6 +7,7 @@ export const CardContainer = styled.div`
   max-width: 472px;
   margin-bottom: 32px;
   position: relative;
+  background-color: #fff;
 
   ${TagContainer} {
     margin-right: 8px;

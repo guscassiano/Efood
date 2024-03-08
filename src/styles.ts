@@ -13,6 +13,12 @@ export const EstiloGlobal = createGlobalStyle`
     font-family: "Roboto", sans-serif;
     list-style: none;
   }
+
+
+  body {
+    background-color: #FFF8F2;
+    ;
+  }
 `
 
 export const Container = styled.div`

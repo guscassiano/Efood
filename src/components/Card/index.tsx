@@ -20,7 +20,9 @@ type Props = {
 
 const Card = ({ title, description, infos, image, star, note }: Props) => (
   <CardContainer>
-    <img src={image} alt={title} />
+    <div style={{ maxHeight: 217 }}>
+      <img src={image} alt={title} />
+    </div>
     <Infos>
       {infos.map((info) => (
         <Tag key={info}>{info}</Tag>

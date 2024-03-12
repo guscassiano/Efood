@@ -2,63 +2,34 @@ import Hero from './Header'
 import Banner from './Banner'
 import OptionsList from './OptionsList'
 import { Container } from '../../styles'
-import Opcao from '../../models/opcao'
 
-import pizza from '../../assets/images/pizza.png'
+import { Prato } from '../Home'
+import { useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
-const opcao: Opcao[] = [
-  {
-    id: 1,
-    image: pizza,
-    title: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-  },
-  {
-    id: 2,
-    image: pizza,
-    title: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-  },
-  {
-    id: 3,
-    image: pizza,
-    title: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-  },
-  {
-    id: 4,
-    image: pizza,
-    title: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-  },
-  {
-    id: 5,
-    image: pizza,
-    title: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-  },
-  {
-    id: 6,
-    image: pizza,
-    title: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
+const Cardapio = () => {
+  const { id } = useParams()
+  const [opcaoRestaurante, setOpcaoRestaurante] = useState<Prato>()
+
+  useEffect(() => {
+    fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
+      .then((res) => res.json())
+      .then((res) => setOpcaoRestaurante(res))
+  }, [id])
+
+  if (!opcaoRestaurante) {
+    return <h3>Carregando...</h3>
   }
-]
 
-const Cardapio = () => (
-  <>
-    <Hero />
-    <Banner />
-    <Container>
-      <OptionsList opcoes={opcao} />
-    </Container>
-  </>
-)
+  return (
+    <>
+      <Hero />
+      <Banner prato={opcaoRestaurante} />
+      <Container>
+        <OptionsList opcoes={opcaoRestaurante} />
+      </Container>
+    </>
+  )
+}
 
 export default Cardapio

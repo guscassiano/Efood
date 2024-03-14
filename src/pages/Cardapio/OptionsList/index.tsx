@@ -22,6 +22,13 @@ const OptionsList = ({ opcoes }: Props) => {
     setModal(false)
   }
 
+  const formataReal = (preco = 0) => {
+    return new Intl.NumberFormat('pt-br', {
+      style: 'currency',
+      currency: 'BRL'
+    }).format(preco)
+  }
+
   return (
     <>
       <OpList>
@@ -50,7 +57,9 @@ const OptionsList = ({ opcoes }: Props) => {
                   <br /> <br />
                   Serve: de {maisDetalhes.porcao}
                 </p>
-                <button>Adicionar ao carrinho - {maisDetalhes.preco}</button>
+                <button>
+                  Adicionar ao carrinho - {formataReal(maisDetalhes.preco)}
+                </button>
               </div>
             </>
           )}

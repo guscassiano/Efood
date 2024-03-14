@@ -17,6 +17,13 @@ const OptionCard = ({ openModal, prato }: Props) => {
     return <h3>Carregando...</h3>
   }
 
+  const getDescricao = (descricao: string) => {
+    if (descricao.length > 250) {
+      return descricao.slice(0, 250) + '...'
+    }
+    return descricao
+  }
+
   return (
     <div>
       <OptionContainer key={prato.id}>
@@ -27,7 +34,7 @@ const OptionCard = ({ openModal, prato }: Props) => {
         />
         <div>
           <TitleOption>{prato.nome}</TitleOption>
-          <DescricaoOption>{prato.descricao}</DescricaoOption>
+          <DescricaoOption>{getDescricao(prato.descricao)}</DescricaoOption>
         </div>
         <AddButton onClick={openModal}>Mais detalhes</AddButton>
       </OptionContainer>

@@ -8,7 +8,6 @@ export const OptionContainer = styled.div`
   color: ${Cores.branco};
   padding: 8px;
   font-size: 14px;
-  margin-bottom: 32px;
 `
 
 export const TitleOption = styled.h3`

@@ -4,8 +4,7 @@ import { Cores } from '../../../styles'
 export const OpList = styled.ul`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  column-gap: 32px;
-  row-gap: 32px;
+  gap: 32px;
   margin: 56px 0 120px;
   position: relative;
 `

@@ -1,7 +1,4 @@
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-
-import { Prato } from '../../Home'
+import { CardapioItem } from '../../Home'
 
 import {
   AddButton,
@@ -11,33 +8,30 @@ import {
 } from './styles'
 
 type Props = {
-  opcao: Prato
+  prato: CardapioItem
   openModal: () => void
 }
 
-const OptionCard = ({ opcao, openModal }: Props) => {
-  const { id } = useParams()
-  const [prato, setPrato] = useState<Prato>()
-
-  useEffect(() => {
-    fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
-      .then((res) => res.json())
-      .then((res) => setPrato(res))
-  }, [id])
-
+const OptionCard = ({ openModal, prato }: Props) => {
   if (!prato) {
     return <h3>Carregando...</h3>
   }
 
   return (
-    <OptionContainer>
-      <img src={opcao.cardapio.foto} alt={opcao.cardapio.nome} />
-      <div>
-        <TitleOption>{opcao.cardapio.nome}</TitleOption>
-        <DescricaoOption>{opcao.cardapio.descricao}</DescricaoOption>
-      </div>
-      <AddButton onClick={openModal}>Mais detalhes</AddButton>
-    </OptionContainer>
+    <div>
+      <OptionContainer key={prato.id}>
+        <img
+          src={prato.foto}
+          alt={prato.nome}
+          style={{ width: '100%', height: 167 }}
+        />
+        <div>
+          <TitleOption>{prato.nome}</TitleOption>
+          <DescricaoOption>{prato.descricao}</DescricaoOption>
+        </div>
+        <AddButton onClick={openModal}>Mais detalhes</AddButton>
+      </OptionContainer>
+    </div>
   )
 }
 

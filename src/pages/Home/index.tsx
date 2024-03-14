@@ -3,7 +3,18 @@ import CardList from '../../components/CardList'
 import Hero from '../../components/Hero'
 import { Container } from '../../styles'
 
+export interface CardapioItem {
+  foto: string
+  preco: number
+  nome: string
+  descricao: string
+  porcao: string
+  id: number
+}
+
 export type Prato = {
+  nome: string | undefined
+  foto: string | undefined
   id: number
   titulo: string
   destacado: boolean
@@ -11,14 +22,7 @@ export type Prato = {
   avaliacao: number
   descricao: string
   capa: string
-  cardapio: {
-    foto: string
-    preco: number
-    nome: string
-    descricao: string
-    porcao: string
-    id: number
-  }
+  cardapio: CardapioItem[]
 }
 
 const Home = () => {

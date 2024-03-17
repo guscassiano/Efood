@@ -4,14 +4,30 @@ import OptionCard from '../Options'
 import { Modal, ModalContent, OpList } from './styles'
 import { useState } from 'react'
 import { CardapioItem } from '../../Home'
+import { useDispatch } from 'react-redux'
+import { add, open } from '../../../store/reducers/cart'
 
 type Props = {
-  opcoes: CardapioItem
+  prato: CardapioItem
 }
 
-const OptionsList = ({ opcoes }: Props) => {
+export const formataReal = (preco = 0) => {
+  return new Intl.NumberFormat('pt-br', {
+    style: 'currency',
+    currency: 'BRL'
+  }).format(preco)
+}
+
+const OptionsList = ({ prato }: Props) => {
   const [modal, setModal] = useState(false)
   const [maisDetalhes, setmaisDetalhes] = useState<CardapioItem | null>(null)
+
+  const dispatch = useDispatch()
+
+  const addCart = () => {
+    dispatch(add(prato))
+    dispatch(open())
+  }
 
   const openModal = (opcao: CardapioItem) => {
     setmaisDetalhes(opcao)
@@ -22,18 +38,11 @@ const OptionsList = ({ opcoes }: Props) => {
     setModal(false)
   }
 
-  const formataReal = (preco = 0) => {
-    return new Intl.NumberFormat('pt-br', {
-      style: 'currency',
-      currency: 'BRL'
-    }).format(preco)
-  }
-
   return (
     <>
       <OpList>
-        {Array.isArray(opcoes) &&
-          opcoes.map((opcao) => (
+        {Array.isArray(prato) &&
+          prato.map((opcao) => (
             <OptionCard
               key={opcao.id}
               prato={opcao}
@@ -57,7 +66,7 @@ const OptionsList = ({ opcoes }: Props) => {
                   <br /> <br />
                   Serve: de {maisDetalhes.porcao}
                 </p>
-                <button>
+                <button onClick={addCart}>
                   Adicionar ao carrinho - {formataReal(maisDetalhes.preco)}
                 </button>
               </div>

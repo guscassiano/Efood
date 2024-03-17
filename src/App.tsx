@@ -4,14 +4,18 @@ import Footer from './components/Footer'
 
 import { EstiloGlobal } from './styles'
 import Rotas from './routes'
+import { Provider } from 'react-redux'
+import { store } from './store'
 
 function App() {
   return (
-    <BrowserRouter>
-      <EstiloGlobal />
-      <Rotas />
-      <Footer />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <EstiloGlobal />
+        <Rotas />
+        <Footer />
+      </BrowserRouter>
+    </Provider>
   )
 }
 

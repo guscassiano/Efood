@@ -22,5 +22,6 @@ export const HeaderSegundo = styled.header`
     font-size: 18px;
     font-weight: 900;
     color: ${Cores.laranja};
+    cursor: pointer;
   }
 `

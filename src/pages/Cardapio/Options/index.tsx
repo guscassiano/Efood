@@ -1,3 +1,4 @@
+import { useDispatch } from 'react-redux'
 import { CardapioItem } from '../../Home'
 
 import {
@@ -6,6 +7,7 @@ import {
   OptionContainer,
   TitleOption
 } from './styles'
+import { openModalItem } from '../../../store/reducers/modal'
 
 type Props = {
   prato: CardapioItem
@@ -13,6 +15,12 @@ type Props = {
 }
 
 const OptionCard = ({ openModal, prato }: Props) => {
+  const dispatch = useDispatch()
+
+  const abrirModal = () => {
+    dispatch(openModalItem())
+    openModal()
+  }
   if (!prato) {
     return <h3>Carregando...</h3>
   }
@@ -36,7 +44,7 @@ const OptionCard = ({ openModal, prato }: Props) => {
           <TitleOption>{prato.nome}</TitleOption>
           <DescricaoOption>{getDescricao(prato.descricao)}</DescricaoOption>
         </div>
-        <AddButton onClick={openModal}>Mais detalhes</AddButton>
+        <AddButton onClick={abrirModal}>Mais detalhes</AddButton>
       </OptionContainer>
     </div>
   )

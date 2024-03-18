@@ -4,8 +4,10 @@ import OptionCard from '../Options'
 import { Modal, ModalContent, OpList } from './styles'
 import { useState } from 'react'
 import { CardapioItem } from '../../Home'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { add, open } from '../../../store/reducers/cart'
+import { RootReducer } from '../../../store'
+import { closeModalItem } from '../../../store/reducers/modal'
 
 type Props = {
   prato: CardapioItem
@@ -19,8 +21,10 @@ export const formataReal = (preco = 0) => {
 }
 
 const OptionsList = ({ prato }: Props) => {
-  const [modal, setModal] = useState(false)
+  const isModalOpen = useSelector((state: RootReducer) => state.modal)
   const [maisDetalhes, setmaisDetalhes] = useState<CardapioItem | null>(null)
+
+  console.log(maisDetalhes)
 
   const dispatch = useDispatch()
 
@@ -29,13 +33,12 @@ const OptionsList = ({ prato }: Props) => {
     dispatch(open())
   }
 
-  const openModal = (opcao: CardapioItem) => {
-    setmaisDetalhes(opcao)
-    setModal(true)
+  const closeModal = () => {
+    dispatch(closeModalItem())
   }
 
-  const closeModal = () => {
-    setModal(false)
+  const openModal = (opcao: CardapioItem) => {
+    setmaisDetalhes(opcao)
   }
 
   return (
@@ -50,7 +53,7 @@ const OptionsList = ({ prato }: Props) => {
             />
           ))}
       </OpList>
-      <Modal className={modal ? 'visible' : ''}>
+      <Modal className={isModalOpen ? 'visible' : ''}>
         <div className="overlay" onClick={() => closeModal()}></div>
         <ModalContent>
           {maisDetalhes && (

@@ -6,6 +6,7 @@ import { CartContainer, Descarte, Item, Overlay, SideBar } from './styles'
 import { RootReducer } from '../../../store'
 import { close, remove } from '../../../store/reducers/cart'
 import { formataReal } from '../OptionsList'
+import { closeModalItem } from '../../../store/reducers/modal'
 
 const Cart = () => {
   const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
@@ -13,6 +14,7 @@ const Cart = () => {
 
   const closeCart = () => {
     dispatch(close())
+    dispatch(closeModalItem())
   }
 
   const removePrato = (id: number) => {

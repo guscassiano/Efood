@@ -24,13 +24,13 @@ const OptionsList = ({ prato }: Props) => {
   const isModalOpen = useSelector((state: RootReducer) => state.modal)
   const [maisDetalhes, setmaisDetalhes] = useState<CardapioItem | null>(null)
 
-  console.log(maisDetalhes)
-
   const dispatch = useDispatch()
 
   const addCart = () => {
-    dispatch(add(prato))
-    dispatch(open())
+    if (maisDetalhes && maisDetalhes.id) {
+      dispatch(add(maisDetalhes))
+      dispatch(open())
+    }
   }
 
   const closeModal = () => {
@@ -49,7 +49,7 @@ const OptionsList = ({ prato }: Props) => {
             <OptionCard
               key={opcao.id}
               prato={opcao}
-              openModal={() => openModal(opcao)}
+              openModal={(opcao) => openModal(opcao)}
             />
           ))}
       </OpList>

@@ -15,6 +15,8 @@ const Cardapio = () => {
   const [opcaoRestaurante, setOpcaoRestaurante] = useState<CardapioItem>()
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const { data: opcaoBanner } = useGetBannerQuery(id!)
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // const { data: opcaoRestaurante } = useGetMenuItemQuery(id!)
 
   useEffect(() => {
     if (id) {

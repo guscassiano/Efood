@@ -11,7 +11,7 @@ import { openModalItem } from '../../../store/reducers/modal'
 
 type Props = {
   prato: CardapioItem
-  openModal: () => void
+  openModal: (prato: CardapioItem) => void
 }
 
 const OptionCard = ({ openModal, prato }: Props) => {
@@ -19,7 +19,7 @@ const OptionCard = ({ openModal, prato }: Props) => {
 
   const abrirModal = () => {
     dispatch(openModalItem())
-    openModal()
+    openModal(prato)
   }
   if (!prato) {
     return <h3>Carregando...</h3>

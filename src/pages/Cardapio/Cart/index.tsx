@@ -32,9 +32,9 @@ const Cart = () => {
       <Overlay onClick={closeCart} />
       <SideBar>
         <ul>
-          {items.map((prato) => (
-            <>
-              {console.log('ID do prato:', prato.id)}
+          {items.map((prato) => {
+            console.log('ID do prato:', prato.id)
+            return (
               <Item key={prato.id}>
                 <img src={prato.foto} alt={prato.nome} />
                 <div>
@@ -49,8 +49,8 @@ const Cart = () => {
                   />
                 </div>
               </Item>
-            </>
-          ))}
+            )
+          })}
         </ul>
         <div>
           <p>Valor total</p>

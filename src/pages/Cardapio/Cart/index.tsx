@@ -35,8 +35,8 @@ const Cart = () => {
       <SideBar>
         {items.length === 0 ? (
           <h1 style={{ color: Cores.branco, textAlign: 'center' }}>
-            Seu carrinho encontrasse vazio, acrescente pelo menos um item para
-            prosseguir com a compra
+            Seu carrinho se encontra vazio, acrescente pelo menos um item para
+            prosseguir com a compra.
           </h1>
         ) : (
           <>

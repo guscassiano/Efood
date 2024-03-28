@@ -27,7 +27,7 @@ const DeliveryData = () => {
     (state: RootReducer) => state.data
   )
   const { items } = useSelector((state: RootReducer) => state.cart)
-  const [purchase, { data, isSuccess, isLoading }] = usePurchaseMutation()
+  const [purchase, { data, isLoading }] = usePurchaseMutation()
 
   const form = useFormik({
     initialValues: {
@@ -129,9 +129,7 @@ const DeliveryData = () => {
   }
 
   const successMessage = () => {
-    if (isSuccess) {
-      return dispatch(openSuccessMessage())
-    }
+    dispatch(openSuccessMessage())
   }
 
   const finishAll = () => {
@@ -342,7 +340,6 @@ const DeliveryData = () => {
           </S.DataSideBar>
         </S.DataContainer>
       </form>
-
       {data && data.orderId && (
         <>
           <S.DataContainer className={isSuccessMessage ? 'is-open' : ''}>

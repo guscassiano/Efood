@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 import styled from 'styled-components'
 import { Cores } from '../../../styles'
 
@@ -24,4 +26,8 @@ export const HeaderSegundo = styled.header`
     color: ${Cores.laranja};
     cursor: pointer;
   }
+`
+
+export const RestaurantButton = styled(Link)`
+  text-decoration: none;
 `

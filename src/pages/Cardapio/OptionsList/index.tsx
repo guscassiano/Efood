@@ -27,7 +27,7 @@ const OptionsList = ({ prato }: Props) => {
   const dispatch = useDispatch()
 
   const addCart = () => {
-    if (maisDetalhes && maisDetalhes.id) {
+    if (maisDetalhes) {
       dispatch(add(maisDetalhes))
       dispatch(open())
     }

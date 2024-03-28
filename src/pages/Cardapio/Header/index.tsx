@@ -1,11 +1,12 @@
-import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+
 import fundo from '../../../assets/images/fundo.png'
 import logo from '../../../assets/images/logo.png'
 
-import { HeaderSegundo } from './styles'
-import { useDispatch, useSelector } from 'react-redux'
 import { open } from '../../../store/reducers/cart'
 import { RootReducer } from '../../../store'
+
+import { HeaderSegundo, RestaurantButton } from './styles'
 
 const Hero = () => {
   const dispatch = useDispatch()
@@ -17,10 +18,10 @@ const Hero = () => {
   return (
     <HeaderSegundo style={{ backgroundImage: `url(${fundo})` }}>
       <div className="container">
-        <h3>Restaurantes</h3>
-        <Link to="/" className="logo-link">
-          <img src={logo} alt="Logo" />
-        </Link>
+        <RestaurantButton to="/">
+          <h3>Restaurantes</h3>
+        </RestaurantButton>
+        <img src={logo} alt="Logo" className="logo-link" />
         <h3 onClick={openCart}>{items.length} produto(s) no carrinho</h3>
       </div>
     </HeaderSegundo>

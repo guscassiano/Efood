@@ -4,14 +4,11 @@ import instagram from '../../assets/images/instagram.svg'
 import twitter from '../../assets/images/twitter.svg'
 
 import { Rodape, SocialMedias, TextFooter } from './styles'
-import { Link } from 'react-router-dom'
 
 const Footer = () => (
   <Rodape>
     <div className="container">
-      <Link to="/">
-        <img src={logo} alt="Efood" />
-      </Link>
+      <img src={logo} alt="Efood" />
       <SocialMedias>
         <img src={facebook} alt="facebook" />
         <img className="image" src={instagram} alt="instagram" />

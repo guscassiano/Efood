@@ -333,7 +333,7 @@ const DeliveryData = () => {
                   ? 'Finalizando o pagamento, aguarde...'
                   : 'Finalizar o pagamento'}
               </button>
-              <button onClick={closePayment}>
+              <button type="button" onClick={closePayment}>
                 Voltar para a edição de endereço
               </button>
             </S.DataButtonContainer>

@@ -76,7 +76,6 @@ const DeliveryData = () => {
         .required('O campo acima é obrigatório')
     }),
     onSubmit: (values) => {
-      console.log(values)
       purchase({
         delivery: {
           receiver: values.whoReceive,
@@ -346,7 +345,6 @@ const DeliveryData = () => {
 
       {data && data.orderId && (
         <>
-          {console.log(data.orderId)}
           <S.DataContainer className={isSuccessMessage ? 'is-open' : ''}>
             <S.DataSideBar>
               <h3>Pedido realiz - {data.orderId}</h3>

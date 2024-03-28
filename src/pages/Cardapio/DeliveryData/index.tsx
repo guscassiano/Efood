@@ -347,7 +347,7 @@ const DeliveryData = () => {
         <>
           <S.DataContainer className={isSuccessMessage ? 'is-open' : ''}>
             <S.DataSideBar>
-              <h3>Pedido realiz - {data.orderId}</h3>
+              <h3>Pedido realizado - {data.orderId}</h3>
               <div>
                 <S.Message>
                   Estamos felizes em informar que seu pedido já está em processo

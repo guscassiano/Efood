@@ -90,3 +90,9 @@ export const CardNumberField = styled.div`
 export const CvvField = styled(InputGroup)`
   width: 87px;
 `
+
+export const Message = styled.p`
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+`

@@ -6,6 +6,7 @@ import * as Yup from 'yup'
 import { RootReducer } from '../../../store'
 import {
   closeDataItem,
+  finishOrder,
   openPaymentArea,
   openSuccessMessage
 } from '../../../store/reducers/data'
@@ -18,14 +19,15 @@ import { CardNumberField, CvvField } from './styles'
 import * as S from './styles'
 import { getTotalPrice } from '../../../components/utils'
 import { formataReal } from '../OptionsList'
+import { clear, close } from '../../../store/reducers/cart'
+import { closeModalItem } from '../../../store/reducers/modal'
 
 const DeliveryData = () => {
-  const { isDataOpen, isPaymentAreaOpen } = useSelector(
+  const { isDataOpen, isPaymentAreaOpen, isSuccessMessage } = useSelector(
     (state: RootReducer) => state.data
   )
   const { items } = useSelector((state: RootReducer) => state.cart)
-
-  const [purchase, { isSuccess, isLoading }] = usePurchaseMutation()
+  const [purchase, { data, isSuccess, isLoading }] = usePurchaseMutation()
 
   const form = useFormik({
     initialValues: {
@@ -131,6 +133,13 @@ const DeliveryData = () => {
     if (isSuccess) {
       return dispatch(openSuccessMessage())
     }
+  }
+
+  const finishAll = () => {
+    dispatch(finishOrder())
+    dispatch(close())
+    dispatch(closeModalItem())
+    dispatch(clear())
   }
 
   return (
@@ -324,7 +333,7 @@ const DeliveryData = () => {
             <S.DataButtonContainer>
               <button type="submit" onClick={successMessage}>
                 {isLoading
-                  ? 'Finalizando o pagamenteo, aguarde...'
+                  ? 'Finalizando o pagamento, aguarde...'
                   : 'Finalizar o pagamento'}
               </button>
               <button onClick={closePayment}>
@@ -334,6 +343,40 @@ const DeliveryData = () => {
           </S.DataSideBar>
         </S.DataContainer>
       </form>
+
+      {data && data.orderId && (
+        <>
+          {console.log(data.orderId)}
+          <S.DataContainer className={isSuccessMessage ? 'is-open' : ''}>
+            <S.DataSideBar>
+              <h3>Pedido realiz - {data.orderId}</h3>
+              <div>
+                <S.Message>
+                  Estamos felizes em informar que seu pedido já está em processo
+                  de preparação e, em breve, será entregue no endereço
+                  fornecido.
+                  <br />
+                  <br />
+                  Gostaríamos de ressaltar que nossos entregadores não estão
+                  autorizados a realizar cobranças extras.
+                  <br />
+                  <br />
+                  Lembre-se da importância de higienizar as mãos após o
+                  recebimento do pedido, garantindo assim sua segurança e
+                  bem-estar durante a refeição.
+                  <br />
+                  <br />
+                  Esperamos que desfrute de uma deliciosa e agradável
+                  experiência gastronômica. Bom apetite!
+                </S.Message>
+              </div>
+              <S.DataButtonContainer>
+                <button onClick={finishAll}>Concluir</button>
+              </S.DataButtonContainer>
+            </S.DataSideBar>
+          </S.DataContainer>
+        </>
+      )}
     </>
   )
 }

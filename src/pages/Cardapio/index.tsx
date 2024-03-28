@@ -9,7 +9,6 @@ import { useEffect, useState } from 'react'
 import { useGetBannerQuery } from '../../services/api'
 import Cart from './Cart'
 import DeliveryData from './DeliveryData'
-import MessageOrder from './MessageOrder'
 
 const Cardapio = () => {
   const { id } = useParams()
@@ -45,7 +44,6 @@ const Cardapio = () => {
       </Container>
       <Cart />
       <DeliveryData />
-      <MessageOrder />
     </>
   )
 }

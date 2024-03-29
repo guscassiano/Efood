@@ -12,6 +12,8 @@ import * as S from './styles'
 import { openDataItem } from '../../../store/reducers/data'
 import { Cores } from '../../../styles'
 
+import fechar from '../../../assets/images/close 1.png'
+
 const Cart = () => {
   const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
   const dispatch = useDispatch()
@@ -33,6 +35,7 @@ const Cart = () => {
     <S.CartContainer className={isOpen ? 'is-open' : ''}>
       <S.Overlay onClick={closeCart} />
       <S.SideBar>
+        <S.Close src={fechar} onClick={closeCart} alt="Clique para fechar" />
         {items.length === 0 ? (
           <h1 style={{ color: Cores.branco, textAlign: 'center' }}>
             Seu carrinho se encontra vazio, acrescente pelo menos um item para

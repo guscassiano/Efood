@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Cores } from '../../../styles'
+import { Cores, breakpoint } from '../../../styles'
 
 export const OpList = styled.ul`
   display: grid;
@@ -7,6 +7,11 @@ export const OpList = styled.ul`
   gap: 32px;
   margin: 56px 0 120px;
   position: relative;
+
+  @media (max-width: ${breakpoint.tablet}) {
+    grid-template-columns: 1fr;
+    margin-left: 27px;
+  }
 `
 
 export const Modal = styled.div`
@@ -22,7 +27,6 @@ export const Modal = styled.div`
 
   &.visible {
     display: flex;
-  }
 
   .overlay {
     position: absolute;
@@ -50,6 +54,14 @@ export const ModalContent = styled.div`
   background-color: ${Cores.laranja};
   color: ${Cores.branco};
   font-size: 14px;
+
+  @media (max-width: ${breakpoint.tablet}) {
+    display: block;
+
+    h3 {
+      margin-top: 8px;
+    }
+  }
 
   > img {
     margin-right: 24px;

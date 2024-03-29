@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Cores } from '../../../styles'
+import { Cores, breakpoint } from '../../../styles'
 
 export const Img = styled.div`
   height: 280px;
@@ -18,6 +18,10 @@ export const TextBanner = styled.h1`
   font-size: 32px;
   font-weight: 900;
   padding-top: 160px;
+
+  @media (max-width: ${breakpoint.tablet}) {
+    margin-left: 16px;:
+  }
 `
 
 export const TipoCozinha = styled.h3`
@@ -25,6 +29,10 @@ export const TipoCozinha = styled.h3`
   font-weight: 100;
   font-size: 32px;
   padding-top: 16px;
+
+  @media (max-width: ${breakpoint.tablet}) {
+    margin-left: 16px;:
+  }
 `
 
 export const ContainerBanner = styled.div`

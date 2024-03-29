@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 
 import styled from 'styled-components'
-import { Cores } from '../../../styles'
+import { Cores, breakpoint } from '../../../styles'
 
 export const HeaderSegundo = styled.header`
   width: 100%;
@@ -25,6 +25,26 @@ export const HeaderSegundo = styled.header`
     font-weight: 900;
     color: ${Cores.laranja};
     cursor: pointer;
+  }
+
+  @media (max-width: ${breakpoint.tablet}) {
+    .container {
+      display: block;
+      width: 80%;
+      text-align: center;
+    }
+
+    .logo-link {
+      display: none;
+    }
+
+    h3 {
+      font-size: 24px;
+      font-weight: 900;
+      color: ${Cores.laranja};
+      cursor: pointer;
+      margin-bottom: 36px;
+    }
   }
 `
 

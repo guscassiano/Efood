@@ -5,6 +5,11 @@ export const Cores = {
   branco: '#FFEBD9'
 }
 
+export const breakpoint = {
+  tablet: '768px',
+  desktop: '1024px;'
+}
+
 export const EstiloGlobal = createGlobalStyle`
   * {
     margin: 0;
@@ -23,6 +28,10 @@ export const EstiloGlobal = createGlobalStyle`
 
 export const Container = styled.div`
   width: 100%;
-  max-width: 1024px;
+  max-width: ${breakpoint.desktop};
   margin: 80px auto;
+
+  media(max-width: ${breakpoint.tablet}) {
+    width: 80%;
+  }
 `

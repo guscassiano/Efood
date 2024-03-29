@@ -85,3 +85,10 @@ export const Descarte = styled.img`
   right: 8px;
   cursor: pointer;
 `
+
+export const Close = styled.img`
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  cursor: pointer;
+`

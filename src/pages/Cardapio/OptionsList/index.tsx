@@ -1,13 +1,15 @@
-import fechar from '../../../assets/images/close 1.png'
-
-import OptionCard from '../Options'
-import { Modal, ModalContent, OpList } from './styles'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+
+import OptionCard from '../Options'
+import * as S from './styles'
+
 import { add, open } from '../../../store/reducers/cart'
 import { RootReducer } from '../../../store'
 import { closeModalItem } from '../../../store/reducers/modal'
 import { formataReal } from '../../../utils'
+
+import fechar from '../../../assets/images/close 1.png'
 
 type Props = {
   prato: CardapioItem
@@ -36,7 +38,7 @@ const OptionsList = ({ prato }: Props) => {
 
   return (
     <>
-      <OpList>
+      <S.OpList>
         {Array.isArray(prato) &&
           prato.map((opcao) => (
             <OptionCard
@@ -45,10 +47,10 @@ const OptionsList = ({ prato }: Props) => {
               openModal={(opcao) => openModal(opcao)}
             />
           ))}
-      </OpList>
-      <Modal className={isModalOpen ? 'visible' : ''}>
+      </S.OpList>
+      <S.Modal className={isModalOpen ? 'visible' : ''}>
         <div className="overlay" onClick={() => closeModal()}></div>
-        <ModalContent>
+        <S.ModalContent>
           {maisDetalhes && (
             <>
               <img src={maisDetalhes.foto} alt={maisDetalhes.nome} />
@@ -68,8 +70,8 @@ const OptionsList = ({ prato }: Props) => {
               </div>
             </>
           )}
-        </ModalContent>
-      </Modal>
+        </S.ModalContent>
+      </S.Modal>
     </>
   )
 }

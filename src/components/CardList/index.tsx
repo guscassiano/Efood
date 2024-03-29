@@ -1,4 +1,3 @@
-import { Prato } from '../../pages/Home'
 import Card from '../Card'
 import List from './styles'
 import star from '../../assets/images/estrela.svg'

@@ -1,19 +1,18 @@
-import { Prato } from '../../Home'
-import { ContainerBanner, Img, TextBanner, TipoCozinha } from './styles'
+import * as S from './styles'
 
 type Props = {
   prato: Prato
 }
 
 const Banner = ({ prato }: Props) => (
-  <Img style={{ backgroundImage: `url(${prato.capa})` }}>
-    <ContainerBanner>
+  <S.Img style={{ backgroundImage: `url(${prato.capa})` }}>
+    <S.ContainerBanner>
       <div className="container">
-        <TipoCozinha>{prato.tipo}</TipoCozinha>
-        <TextBanner>{prato.titulo}</TextBanner>
+        <S.TipoCozinha>{prato.tipo}</S.TipoCozinha>
+        <S.TextBanner>{prato.titulo}</S.TextBanner>
       </div>
-    </ContainerBanner>
-  </Img>
+    </S.ContainerBanner>
+  </S.Img>
 )
 
 export default Banner

@@ -3,7 +3,6 @@ import Banner from './Banner'
 import OptionsList from './OptionsList'
 import { Container } from '../../styles'
 
-import { CardapioItem } from '../Home'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useGetBannerQuery } from '../../services/api'

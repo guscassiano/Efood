@@ -1,12 +1,6 @@
 import { useDispatch } from 'react-redux'
-import { CardapioItem } from '../../Home'
 
-import {
-  AddButton,
-  DescricaoOption,
-  OptionContainer,
-  TitleOption
-} from './styles'
+import * as S from './styles'
 import { openModalItem } from '../../../store/reducers/modal'
 
 type Props = {
@@ -34,18 +28,18 @@ const OptionCard = ({ openModal, prato }: Props) => {
 
   return (
     <div>
-      <OptionContainer key={prato.id}>
+      <S.OptionContainer key={prato.id}>
         <img
           src={prato.foto}
           alt={prato.nome}
           style={{ width: '100%', height: 167 }}
         />
         <div>
-          <TitleOption>{prato.nome}</TitleOption>
-          <DescricaoOption>{getDescricao(prato.descricao)}</DescricaoOption>
+          <S.TitleOption>{prato.nome}</S.TitleOption>
+          <S.DescricaoOption>{getDescricao(prato.descricao)}</S.DescricaoOption>
         </div>
-        <AddButton onClick={abrirModal}>Mais detalhes</AddButton>
-      </OptionContainer>
+        <S.AddButton onClick={abrirModal}>Mais detalhes</S.AddButton>
+      </S.OptionContainer>
     </div>
   )
 }

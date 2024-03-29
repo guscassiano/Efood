@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Cores } from '../../styles'
 
-export const Rodape = styled.footer`
+export const Footer = styled.footer`
   background-color: ${Cores.branco};
   height: 298px;
 

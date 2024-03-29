@@ -1,13 +1,5 @@
 import Tag from '../Tag'
-import {
-  Botao,
-  CardContainer,
-  Content,
-  Descricao,
-  Infos,
-  TitleContainer,
-  Titulo
-} from './styles'
+import * as S from './styles'
 
 type Props = {
   title: string
@@ -31,7 +23,7 @@ const Card = ({
   id
 }: Props) => {
   return (
-    <CardContainer>
+    <S.CardContainer>
       <div style={{ height: 217 }}>
         <img
           src={image}
@@ -39,22 +31,22 @@ const Card = ({
           style={{ width: '100%', height: '100%' }}
         />
       </div>
-      <Infos>
+      <S.Infos>
         {destacado && <Tag>Destaque da semana</Tag>}
         <Tag>{tipo}</Tag>
-      </Infos>
-      <Content>
-        <TitleContainer>
-          <Titulo>{title}</Titulo>
+      </S.Infos>
+      <S.Content>
+        <S.TitleContainer>
+          <S.Titulo>{title}</S.Titulo>
           <div>
             <h3>{note}</h3>
             <img src={star} alt="estrela" />
           </div>
-        </TitleContainer>
-        <Descricao>{description}</Descricao>
-        <Botao to={`/${id}`}>Saiba mais</Botao>
-      </Content>
-    </CardContainer>
+        </S.TitleContainer>
+        <S.Descricao>{description}</S.Descricao>
+        <S.Botao to={`/${id}`}>Saiba mais</S.Botao>
+      </S.Content>
+    </S.CardContainer>
   )
 }
 

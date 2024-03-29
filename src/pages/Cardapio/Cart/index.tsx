@@ -2,13 +2,13 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { RootReducer } from '../../../store'
 import { close, remove } from '../../../store/reducers/cart'
-import { formataReal } from '../OptionsList'
+import { formataReal } from '../../../utils'
 import { closeModalItem } from '../../../store/reducers/modal'
-import { getTotalPrice } from '../../../components/utils'
+import { getTotalPrice } from '../../../utils'
 
 import lixeira from '../../../assets/images/lixeira.png'
 
-import { CartContainer, Descarte, Item, Overlay, SideBar } from './styles'
+import * as S from './styles'
 import { openDataItem } from '../../../store/reducers/data'
 import { Cores } from '../../../styles'
 
@@ -30,9 +30,9 @@ const Cart = () => {
   }
 
   return (
-    <CartContainer className={isOpen ? 'is-open' : ''}>
-      <Overlay onClick={closeCart} />
-      <SideBar>
+    <S.CartContainer className={isOpen ? 'is-open' : ''}>
+      <S.Overlay onClick={closeCart} />
+      <S.SideBar>
         {items.length === 0 ? (
           <h1 style={{ color: Cores.branco, textAlign: 'center' }}>
             Seu carrinho se encontra vazio, acrescente pelo menos um item para
@@ -43,20 +43,20 @@ const Cart = () => {
             <ul>
               {items.map((prato) => {
                 return (
-                  <Item key={prato.id}>
+                  <S.Item key={prato.id}>
                     <img src={prato.foto} alt={prato.nome} />
                     <div>
                       <h3>{prato.nome}</h3>
                       <p>{formataReal(prato.preco)}</p>
                     </div>
                     <div>
-                      <Descarte
+                      <S.Descarte
                         src={lixeira}
                         alt="lixeira"
                         onClick={() => removePrato(prato.id)}
                       />
                     </div>
-                  </Item>
+                  </S.Item>
                 )
               })}
             </ul>
@@ -69,8 +69,8 @@ const Cart = () => {
             </button>
           </>
         )}
-      </SideBar>
-    </CartContainer>
+      </S.SideBar>
+    </S.CartContainer>
   )
 }
 

@@ -1,13 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { CardapioItem, Prato } from '../pages/Home'
 
 type Product = {
   id: number
   price: number
 }
 
-type PurchaseData = {
-  products: Product[]
+type PurchaseDelivery = {
   delivery: {
     receiver: string
     address: {
@@ -18,6 +16,10 @@ type PurchaseData = {
       complement?: string
     }
   }
+}
+
+type PurchaseData = {
+  products: Product[]
   payment: {
     card: {
       name: string
@@ -49,7 +51,14 @@ const api = createApi({
     getMenuItem: builder.query<CardapioItem, string>({
       query: (id) => `restaurantes/${id}`
     }),
-    purchase: builder.mutation<PurchaseResponse, PurchaseData>({
+    purchase: builder.mutation<PurchaseResponse, PurchaseDelivery>({
+      query: (body) => ({
+        url: 'checkout',
+        method: 'POST',
+        body
+      })
+    }),
+    secondPurchase: builder.mutation<PurchaseResponse, PurchaseData>({
       query: (body) => ({
         url: 'checkout',
         method: 'POST',
@@ -63,7 +72,8 @@ export const {
   useGetRestaurantsQuery,
   useGetBannerQuery,
   useGetMenuItemQuery,
-  usePurchaseMutation
+  usePurchaseMutation,
+  useSecondPurchaseMutation
 } = api
 
 export default api

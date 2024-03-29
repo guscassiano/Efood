@@ -3,24 +3,24 @@ import facebook from '../../assets/images/facebook.svg'
 import instagram from '../../assets/images/instagram.svg'
 import twitter from '../../assets/images/twitter.svg'
 
-import { Rodape, SocialMedias, TextFooter } from './styles'
+import * as S from './styles'
 
 const Footer = () => (
-  <Rodape>
+  <S.Footer>
     <div className="container">
       <img src={logo} alt="Efood" />
-      <SocialMedias>
+      <S.SocialMedias>
         <img src={facebook} alt="facebook" />
         <img className="image" src={instagram} alt="instagram" />
         <img src={twitter} alt="twitter" />
-      </SocialMedias>
-      <TextFooter>
+      </S.SocialMedias>
+      <S.TextFooter>
         A efood é uma plataforma para divulgação de estabelecimentos, a
         responsabilidade pela entrega, qualidade dos produtos é toda do
         estabelecimento contratado.
-      </TextFooter>
+      </S.TextFooter>
     </div>
-  </Rodape>
+  </S.Footer>
 )
 
 export default Footer

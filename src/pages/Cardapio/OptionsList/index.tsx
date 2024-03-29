@@ -3,21 +3,14 @@ import fechar from '../../../assets/images/close 1.png'
 import OptionCard from '../Options'
 import { Modal, ModalContent, OpList } from './styles'
 import { useState } from 'react'
-import { CardapioItem } from '../../Home'
 import { useDispatch, useSelector } from 'react-redux'
 import { add, open } from '../../../store/reducers/cart'
 import { RootReducer } from '../../../store'
 import { closeModalItem } from '../../../store/reducers/modal'
+import { formataReal } from '../../../utils'
 
 type Props = {
   prato: CardapioItem
-}
-
-export const formataReal = (preco = 0) => {
-  return new Intl.NumberFormat('pt-br', {
-    style: 'currency',
-    currency: 'BRL'
-  }).format(preco)
 }
 
 const OptionsList = ({ prato }: Props) => {

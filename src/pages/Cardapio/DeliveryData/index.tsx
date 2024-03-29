@@ -12,13 +12,16 @@ import {
 } from '../../../store/reducers/data'
 
 import { closePaymentArea } from '../../../store/reducers/data'
-import { usePurchaseMutation } from '../../../services/api'
+import {
+  usePurchaseMutation,
+  useSecondPurchaseMutation
+} from '../../../services/api'
 
 import { CardNumberField, CvvField } from './styles'
 
 import * as S from './styles'
-import { getTotalPrice } from '../../../components/utils'
-import { formataReal } from '../OptionsList'
+import { getTotalPrice } from '../../../utils'
+import { formataReal } from '../../../utils'
 import { clear, close } from '../../../store/reducers/cart'
 import { closeModalItem } from '../../../store/reducers/modal'
 
@@ -27,7 +30,8 @@ const DeliveryData = () => {
     (state: RootReducer) => state.data
   )
   const { items } = useSelector((state: RootReducer) => state.cart)
-  const [purchase, { data, isLoading }] = usePurchaseMutation()
+  const [purchase] = usePurchaseMutation()
+  const [secondPurchase, { data, isLoading }] = useSecondPurchaseMutation()
 
   const form = useFormik({
     initialValues: {
@@ -36,12 +40,7 @@ const DeliveryData = () => {
       city: '',
       cepCode: '',
       houseNumber: '',
-      complement: '',
-      cardName: '',
-      cardNumber: '',
-      cvvCode: '',
-      expiresMonth: '',
-      expiresYear: ''
+      complement: ''
     },
     validationSchema: Yup.object({
       whoReceive: Yup.string()
@@ -54,7 +53,33 @@ const DeliveryData = () => {
       cepCode: Yup.string()
         .min(9, 'Digite um CEP válido')
         .required('CEP obrigatório'),
-      houseNumber: Yup.string().required('O campo acima é obrigatório'),
+      houseNumber: Yup.string().required('O campo acima é obrigatório')
+    }),
+    onSubmit: (values) => {
+      purchase({
+        delivery: {
+          receiver: values.whoReceive,
+          address: {
+            description: values.address,
+            city: values.city,
+            zipCode: values.cepCode,
+            number: Number(values.houseNumber),
+            complement: values.complement
+          }
+        }
+      })
+    }
+  })
+
+  const secondForm = useFormik({
+    initialValues: {
+      cardName: '',
+      cardNumber: '',
+      cvvCode: '',
+      expiresMonth: '',
+      expiresYear: ''
+    },
+    validationSchema: Yup.object({
       cardName: Yup.string()
         .min(5, 'Digite um nome com mais de 5 caractéres')
         .required('O campo acima é obrigatório'),
@@ -76,17 +101,7 @@ const DeliveryData = () => {
         .required('O campo acima é obrigatório')
     }),
     onSubmit: (values) => {
-      purchase({
-        delivery: {
-          receiver: values.whoReceive,
-          address: {
-            description: values.address,
-            city: values.city,
-            zipCode: values.cepCode,
-            number: Number(values.houseNumber),
-            complement: values.complement
-          }
-        },
+      secondPurchase({
         payment: {
           card: {
             name: values.cardName,
@@ -114,6 +129,14 @@ const DeliveryData = () => {
     return ''
   }
 
+  const getErrorMessageSecondForm = (fieldName: string, message?: string) => {
+    const isTouched = fieldName in secondForm.touched
+    const isInvalid = fieldName in secondForm.errors
+
+    if (isTouched && isInvalid) return message
+    return ''
+  }
+
   const dispatch = useDispatch()
 
   const backToCart = () => {
@@ -121,8 +144,14 @@ const DeliveryData = () => {
   }
 
   const openPayment = () => {
-    dispatch(openPaymentArea())
+    if (form.dirty) {
+      dispatch(openPaymentArea())
+    } else {
+      dispatch(closePaymentArea())
+    }
   }
+
+  console.log(form.dirty)
 
   const closePayment = () => {
     dispatch(closePaymentArea())
@@ -141,105 +170,109 @@ const DeliveryData = () => {
 
   return (
     <>
-      <S.DataContainer className={isDataOpen ? 'is-open' : ''}>
-        <S.DataSideBar>
-          <h3>Entrega</h3>
-          <S.InputGroup>
-            <label htmlFor="whoReceive">Quem irá receber</label>
-            <input
-              type="text"
-              id="whoReceive"
-              name="whoReceive"
-              value={form.values.whoReceive}
-              onChange={form.handleChange}
-              onBlur={form.handleBlur}
-            />
-            <small style={{ color: 'black' }}>
-              {getErrorMessage('whoReceive', form.errors.whoReceive)}
-            </small>
-          </S.InputGroup>
-          <S.InputGroup>
-            <label htmlFor="address">Endereço</label>
-            <input
-              type="text"
-              id="address"
-              name="address"
-              value={form.values.address}
-              onChange={form.handleChange}
-              onBlur={form.handleBlur}
-            />
-            <small style={{ color: 'black' }}>
-              {getErrorMessage('address', form.errors.address)}
-            </small>
-          </S.InputGroup>
-          <S.InputGroup>
-            <label htmlFor="city">Cidade</label>
-            <input
-              type="text"
-              id="city"
-              name="city"
-              value={form.values.city}
-              onChange={form.handleChange}
-              onBlur={form.handleBlur}
-            />
-            <small style={{ color: 'black' }}>
-              {getErrorMessage('city', form.errors.city)}
-            </small>
-          </S.InputGroup>
-          <div>
-            <S.GroupCpfNumber>
-              <S.InputGroup>
-                <label htmlFor="cepCode">CEP</label>
-                <InputMask
-                  type="text"
-                  id="cepCode"
-                  name="cepCode"
-                  value={form.values.cepCode}
-                  onChange={form.handleChange}
-                  onBlur={form.handleBlur}
-                  mask={'99999-999'}
-                />
-                <small style={{ color: 'black' }}>
-                  {getErrorMessage('cepCode', form.errors.cepCode)}
-                </small>
-              </S.InputGroup>
-              <S.InputGroup>
-                <label htmlFor="houseNumber">Número</label>
-                <input
-                  type="text"
-                  id="houseNumber"
-                  name="houseNumber"
-                  value={form.values.houseNumber}
-                  onChange={form.handleChange}
-                  onBlur={form.handleBlur}
-                />
-                <small style={{ color: 'black' }}>
-                  {getErrorMessage('houseNumber', form.errors.houseNumber)}
-                </small>
-              </S.InputGroup>
-            </S.GroupCpfNumber>
-          </div>
-          <S.InputGroup>
-            <label htmlFor="complement">Complemento (opcional)</label>
-            <input
-              type="text"
-              id="complement"
-              name="complement"
-              value={form.values.complement}
-              onChange={form.handleChange}
-              onBlur={form.handleBlur}
-            />
-          </S.InputGroup>
-          <S.DataButtonContainer>
-            <button type="button" onClick={openPayment}>
-              Continuar com o pagamento
-            </button>
-            <button onClick={backToCart}>Voltar para o carrinho</button>
-          </S.DataButtonContainer>
-        </S.DataSideBar>
-      </S.DataContainer>
       <form onSubmit={form.handleSubmit}>
-        <S.DataContainer className={isPaymentAreaOpen ? 'is-open' : ''}>
+        <S.DataContainer className={isDataOpen ? 'is-open' : ''}>
+          <S.DataSideBar>
+            <h3>Entrega</h3>
+            <S.InputGroup>
+              <label htmlFor="whoReceive">Quem irá receber</label>
+              <input
+                type="text"
+                id="whoReceive"
+                name="whoReceive"
+                value={form.values.whoReceive}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
+              />
+              <small style={{ color: 'black' }}>
+                {getErrorMessage('whoReceive', form.errors.whoReceive)}
+              </small>
+            </S.InputGroup>
+            <S.InputGroup>
+              <label htmlFor="address">Endereço</label>
+              <input
+                type="text"
+                id="address"
+                name="address"
+                value={form.values.address}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
+              />
+              <small style={{ color: 'black' }}>
+                {getErrorMessage('address', form.errors.address)}
+              </small>
+            </S.InputGroup>
+            <S.InputGroup>
+              <label htmlFor="city">Cidade</label>
+              <input
+                type="text"
+                id="city"
+                name="city"
+                value={form.values.city}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
+              />
+              <small style={{ color: 'black' }}>
+                {getErrorMessage('city', form.errors.city)}
+              </small>
+            </S.InputGroup>
+            <div>
+              <S.GroupCpfNumber>
+                <S.InputGroup>
+                  <label htmlFor="cepCode">CEP</label>
+                  <InputMask
+                    type="text"
+                    id="cepCode"
+                    name="cepCode"
+                    value={form.values.cepCode}
+                    onChange={form.handleChange}
+                    onBlur={form.handleBlur}
+                    mask={'99999-999'}
+                  />
+                  <small style={{ color: 'black' }}>
+                    {getErrorMessage('cepCode', form.errors.cepCode)}
+                  </small>
+                </S.InputGroup>
+                <S.InputGroup>
+                  <label htmlFor="houseNumber">Número</label>
+                  <input
+                    type="text"
+                    id="houseNumber"
+                    name="houseNumber"
+                    value={form.values.houseNumber}
+                    onChange={form.handleChange}
+                    onBlur={form.handleBlur}
+                  />
+                  <small style={{ color: 'black' }}>
+                    {getErrorMessage('houseNumber', form.errors.houseNumber)}
+                  </small>
+                </S.InputGroup>
+              </S.GroupCpfNumber>
+            </div>
+            <S.InputGroup>
+              <label htmlFor="complement">Complemento (opcional)</label>
+              <input
+                type="text"
+                id="complement"
+                name="complement"
+                value={form.values.complement}
+                onChange={form.handleChange}
+                onBlur={form.handleBlur}
+              />
+            </S.InputGroup>
+            <S.DataButtonContainer>
+              <button type="submit" onClick={openPayment}>
+                Continuar com o pagamento
+              </button>
+              <button onClick={backToCart}>Voltar para o carrinho</button>
+            </S.DataButtonContainer>
+          </S.DataSideBar>
+        </S.DataContainer>
+      </form>
+      <form onSubmit={secondForm.handleSubmit}>
+        <S.DataContainer
+          className={isPaymentAreaOpen && form.isValid ? 'is-open' : ''}
+        >
           <S.DataSideBar>
             <h3>
               Pagamento - Valor a pagar {formataReal(getTotalPrice(items))}
@@ -250,12 +283,15 @@ const DeliveryData = () => {
                 type="text"
                 id="cardName"
                 name="cardName"
-                value={form.values.cardName}
-                onChange={form.handleChange}
-                onBlur={form.handleBlur}
+                value={secondForm.values.cardName}
+                onChange={secondForm.handleChange}
+                onBlur={secondForm.handleBlur}
               />
               <small style={{ color: 'black' }}>
-                {getErrorMessage('cardName', form.errors.cardName)}
+                {getErrorMessageSecondForm(
+                  'cardName',
+                  secondForm.errors.cardName
+                )}
               </small>
             </S.InputGroup>
             <div>
@@ -266,13 +302,16 @@ const DeliveryData = () => {
                     type="text"
                     id="cardNumber"
                     name="cardNumber"
-                    value={form.values.cardNumber}
-                    onChange={form.handleChange}
-                    onBlur={form.handleBlur}
+                    value={secondForm.values.cardNumber}
+                    onChange={secondForm.handleChange}
+                    onBlur={secondForm.handleBlur}
                     mask={'9999 9999 9999 9999'}
                   />
                   <small style={{ color: 'black' }}>
-                    {getErrorMessage('cardNumber', form.errors.cardNumber)}
+                    {getErrorMessageSecondForm(
+                      'cardNumber',
+                      secondForm.errors.cardNumber
+                    )}
                   </small>
                 </CardNumberField>
                 <CvvField>
@@ -281,13 +320,16 @@ const DeliveryData = () => {
                     type="text"
                     id="cvvCode"
                     name="cvvCode"
-                    value={form.values.cvvCode}
-                    onChange={form.handleChange}
-                    onBlur={form.handleBlur}
+                    value={secondForm.values.cvvCode}
+                    onChange={secondForm.handleChange}
+                    onBlur={secondForm.handleBlur}
                     mask={'999'}
                   />
                   <small style={{ color: 'black' }}>
-                    {getErrorMessage('cvvCode', form.errors.cvvCode)}
+                    {getErrorMessageSecondForm(
+                      'cvvCode',
+                      secondForm.errors.cvvCode
+                    )}
                   </small>
                 </CvvField>
               </S.GroupCpfNumber>
@@ -300,14 +342,17 @@ const DeliveryData = () => {
                     type="text"
                     id="expiresMonth"
                     name="expiresMonth"
-                    value={form.values.expiresMonth}
-                    onChange={form.handleChange}
-                    onBlur={form.handleBlur}
+                    value={secondForm.values.expiresMonth}
+                    onChange={secondForm.handleChange}
+                    onBlur={secondForm.handleBlur}
                     mask={'99'}
                     max={12}
                   />
                   <small style={{ color: 'black' }}>
-                    {getErrorMessage('expiresMonth', form.errors.expiresMonth)}
+                    {getErrorMessageSecondForm(
+                      'expiresMonth',
+                      secondForm.errors.expiresMonth
+                    )}
                   </small>
                 </S.InputGroup>
                 <S.InputGroup>
@@ -316,13 +361,16 @@ const DeliveryData = () => {
                     type="text"
                     id="expiresYear"
                     name="expiresYear"
-                    value={form.values.expiresYear}
-                    onChange={form.handleChange}
-                    onBlur={form.handleBlur}
+                    value={secondForm.values.expiresYear}
+                    onChange={secondForm.handleChange}
+                    onBlur={secondForm.handleBlur}
                     mask={'9999'}
                   />
                   <small style={{ color: 'black' }}>
-                    {getErrorMessage('expiresYear', form.errors.expiresYear)}
+                    {getErrorMessageSecondForm(
+                      'expiresYear',
+                      secondForm.errors.expiresYear
+                    )}
                   </small>
                 </S.InputGroup>
               </S.GroupCpfNumber>

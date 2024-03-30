@@ -9,8 +9,10 @@ export const OpList = styled.ul`
   position: relative;
 
   @media (max-width: ${breakpoint.tablet}) {
-    grid-template-columns: 1fr;
-    margin-left: 27px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
   }
 `
 

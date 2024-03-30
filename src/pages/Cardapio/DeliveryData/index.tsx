@@ -40,7 +40,12 @@ const DeliveryData = () => {
       city: '',
       cepCode: '',
       houseNumber: '',
-      complement: ''
+      complement: '',
+      cardName: '',
+      cardNumber: '',
+      cvvCode: '',
+      expiresMonth: '',
+      expiresYear: ''
     },
     validationSchema: Yup.object({
       whoReceive: Yup.string()
@@ -66,7 +71,22 @@ const DeliveryData = () => {
             number: Number(values.houseNumber),
             complement: values.complement
           }
-        }
+        },
+        payment: {
+          card: {
+            name: values.cardName,
+            number: values.cardNumber,
+            code: Number(values.cvvCode),
+            expires: {
+              month: Number(values.expiresMonth),
+              year: Number(values.expiresYear)
+            }
+          }
+        },
+        products: items.map((item) => ({
+          id: item.id,
+          price: item.preco
+        }))
       })
     }
   })
@@ -150,8 +170,6 @@ const DeliveryData = () => {
       dispatch(closePaymentArea())
     }
   }
-
-  console.log(form.dirty)
 
   const closePayment = () => {
     dispatch(closePaymentArea())

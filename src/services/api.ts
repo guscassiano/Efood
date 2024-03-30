@@ -16,6 +16,18 @@ type PurchaseDelivery = {
       complement?: string
     }
   }
+  products: Product[]
+  payment: {
+    card: {
+      name: string
+      number: string
+      code: number
+      expires: {
+        month: number
+        year: number
+      }
+    }
+  }
 }
 
 type PurchaseData = {

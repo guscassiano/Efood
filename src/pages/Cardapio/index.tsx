@@ -4,27 +4,20 @@ import OptionsList from './OptionsList'
 import { Container } from '../../styles'
 
 import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import { useGetBannerQuery } from '../../services/api'
+import { useGetBannerQuery, useGetMenuItemQuery } from '../../services/api'
 import Cart from './Cart'
 import DeliveryData from './DeliveryData'
 
+type PratoParams = {
+  id: string
+}
+
 const Cardapio = () => {
-  const { id } = useParams()
+  const { id } = useParams() as PratoParams
 
-  const [opcaoRestaurante, setOpcaoRestaurante] = useState<CardapioItem>()
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const { data: opcaoBanner } = useGetBannerQuery(id!)
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  // const { data: opcaoRestaurante } = useGetMenuItemQuery(id!)
+  const { data: opcaoBanner } = useGetBannerQuery(id)
 
-  useEffect(() => {
-    if (id) {
-      fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
-        .then((res) => res.json())
-        .then((res) => setOpcaoRestaurante(res.cardapio))
-    }
-  }, [id])
+  const { data: opcaoRestaurante } = useGetMenuItemQuery(id)
 
   if (!opcaoRestaurante) {
     return <h3>Carregando...</h3>
@@ -39,7 +32,7 @@ const Cardapio = () => {
       <Hero />
       <Banner prato={opcaoBanner} />
       <Container>
-        <OptionsList prato={opcaoRestaurante} />
+        <OptionsList prato={opcaoRestaurante.cardapio} />
       </Container>
       <Cart />
       <DeliveryData />

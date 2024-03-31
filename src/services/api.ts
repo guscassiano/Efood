@@ -60,7 +60,7 @@ const api = createApi({
     getBanner: builder.query<Prato, string>({
       query: (id) => `restaurantes/${id}`
     }),
-    getMenuItem: builder.query<CardapioItem, string>({
+    getMenuItem: builder.query<Prato, string>({
       query: (id) => `restaurantes/${id}`
     }),
     purchase: builder.mutation<PurchaseResponse, PurchaseDelivery>({
